@@ -3,12 +3,25 @@
 
 #include "pch.h"
 #include <iostream>
+#include <SFML\Graphics.hpp>
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Works");
+
+	while (window.isOpen()) {
+
+		sf::Event event;
+		while (window.pollEvent(event)) {
 
 
+		}
+
+		window.clear();
+		window.display();
+	}
+
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
