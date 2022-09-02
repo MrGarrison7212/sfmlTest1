@@ -9,11 +9,7 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
 
-	window.display();
-
-	return 0;
-
-/*	sf::RectangleShape shape(sf::Vector2f(150,150));
+	sf::RectangleShape shape(sf::Vector2f(150,150));
 
 	shape.setFillColor(sf::Color::Blue);
 
@@ -32,7 +28,7 @@ int main()
 		window.draw(shape);
 		window.display();
 	}
-*/
+
 	return 0;
 }
 
