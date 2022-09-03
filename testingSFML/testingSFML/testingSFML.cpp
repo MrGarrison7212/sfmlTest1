@@ -10,25 +10,22 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
 
-	sf::RectangleShape rectShape(sf::Vector2f(200,200));
+	sf::RectangleShape rectShape(sf::Vector2f(150,200));
 	sf::CircleShape circShape(30);
-	sf::ConvexShape pentShape;
 
+
+	rectShape.setPosition(sf::Vector2f(70, 20));
+	rectShape.setRotation(20);
 	rectShape.setFillColor(sf::Color::Blue);
 	rectShape.setOutlineColor(sf::Color::White);
 	rectShape.setOutlineThickness(5);
 
+	circShape.setPosition(sf::Vector2f(50, 50));
+	circShape.setScale(sf::Vector2f(2, 1));
 	circShape.setFillColor(sf::Color::Black);
 	circShape.setOutlineColor(sf::Color::White);
 	circShape.setOutlineThickness(5);
 
-	pentShape.setPointCount(5);
-	pentShape.setPoint(0, sf::Vector2f(0.f,0.f));
-	pentShape.setPoint(1, sf::Vector2f(150.f, 10.f));
-	pentShape.setPoint(2, sf::Vector2f(120.f, 90.f));
-	pentShape.setPoint(3, sf::Vector2f(30.f, 100.f));
-	pentShape.setPoint(4, sf::Vector2f(0.f, 50.f));
-	pentShape.setFillColor(sf::Color::Green);
 
 
 	while (window.isOpen()) {
@@ -45,7 +42,6 @@ int main()
 		window.clear();
 
 		window.draw(rectShape);
-		window.draw(pentShape);
 		window.draw(circShape);
 
 		window.display();
