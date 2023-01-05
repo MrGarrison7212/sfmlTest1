@@ -9,30 +9,26 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
 
-	window.display();
+	sf::RectangleShape shape(sf::Vector2f(150, 150));
 
-	return 0;
+	shape.setFillColor(sf::Color::Blue);
 
-	/*	sf::RectangleShape shape(sf::Vector2f(150,150));
+	while (window.isOpen()) {
 
-		shape.setFillColor(sf::Color::Blue);
+		sf::Event event;
+		while (window.pollEvent(event)) {
 
-		while (window.isOpen()) {
-
-			sf::Event event;
-			while (window.pollEvent(event)) {
-
-				if (event.type == sf::Event::Closed) {
-					window.close();
-				}
-
+			if (event.type == sf::Event::Closed) {
+				window.close();
 			}
 
-			window.clear();
-			window.draw(shape);
-			window.display();
 		}
-	*/
+
+		window.clear();
+		window.draw(shape);
+		window.display();
+	}
+
 	return 0;
 }
 
