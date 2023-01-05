@@ -10,22 +10,14 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
 
-	sf::RectangleShape rectShape(sf::Vector2f(150, 200));
-	sf::CircleShape circShape(30);
+	sf::Texture etfImg;
+	if (etfImg.loadFromFile("Data/etf.jpg") == false) {
+		std::cout << "Loading failed!" << std::endl;
+	}
 
-
-	rectShape.setPosition(sf::Vector2f(70, 20));
-	rectShape.setRotation(20);
-	rectShape.setFillColor(sf::Color::Blue);
-	rectShape.setOutlineColor(sf::Color::White);
-	rectShape.setOutlineThickness(5);
-
-	circShape.setPosition(sf::Vector2f(50, 50));
-	circShape.setScale(sf::Vector2f(2, 1));
-	circShape.setFillColor(sf::Color::Black);
-	circShape.setOutlineColor(sf::Color::White);
-	circShape.setOutlineThickness(5);
-
+	sf::CircleShape circShape(100);
+	circShape.setTexture(&etfImg);
+	circShape.setPosition(50, 50);
 
 
 	while (window.isOpen()) {
@@ -41,7 +33,6 @@ int main()
 
 		window.clear();
 
-		window.draw(rectShape);
 		window.draw(circShape);
 
 		window.display();
