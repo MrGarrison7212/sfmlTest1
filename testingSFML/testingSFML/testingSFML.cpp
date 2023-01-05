@@ -3,8 +3,8 @@
 
 #include "pch.h"
 #include <iostream>
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
+#include <SFML\Graphics.hpp>
+#include <SFML\Audio.hpp>
 
 int main()
 {
@@ -16,16 +16,13 @@ int main()
 	rectShape.setPosition(sf::Vector2f(100, 100));
 	rectShape.setOrigin(sf::Vector2f(25, 25));
 
-	sf::SoundBuffer sBuff;
+	sf::Music exampleMusic;
 
-	if (sBuff.loadFromFile("Data/kennywo.wav") == false) {
+	if (exampleMusic.openFromFile("Data/kennywo.wav") == false) {
 		std::cout << "Loading failed" << std::endl;
 	}
 
-	sf::Sound soundExample(sBuff);
-
-	soundExample.setLoop(true);
-	soundExample.play();
+	exampleMusic.play();
 
 	while (window.isOpen()) {
 
