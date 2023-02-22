@@ -4,25 +4,15 @@
 #include "pch.h"
 #include <iostream>
 #include <SFML\Graphics.hpp>
-#include <SFML\Audio.hpp>
 
 int main()
 {
 
-	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
+	sf::RenderWindow window(sf::VideoMode(400, 400), "SFML Works");
 
-	sf::RectangleShape rectShape(sf::Vector2f(50, 50));
-	rectShape.setFillColor(sf::Color::White);
-	rectShape.setPosition(sf::Vector2f(100, 100));
-	rectShape.setOrigin(sf::Vector2f(25, 25));
+	sf::CircleShape shape(150);
 
-	sf::Music exampleMusic;
-
-	if (exampleMusic.openFromFile("Data/kennywo.wav") == false) {
-		std::cout << "Loading failed" << std::endl;
-	}
-
-	exampleMusic.play();
+	shape.setFillColor(sf::Color::Yellow);
 
 	while (window.isOpen()) {
 
@@ -32,12 +22,11 @@ int main()
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
+
 		}
 
 		window.clear();
-
-		window.draw(rectShape);
-
+		window.draw(shape);
 		window.display();
 	}
 
