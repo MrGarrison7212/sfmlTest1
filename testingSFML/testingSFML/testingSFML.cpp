@@ -19,16 +19,13 @@ int main()
 	rectShape.setOrigin(sf::Vector2f(25, 25));
 
 
-	sf::SoundBuffer sBuff;
+	sf::Music exampleMusic;
 
-	if (sBuff.loadFromFile("Data/kennywo.wav") == false) {
+	if (exampleMusic.openFromFile("Data/kennywo.wav") == false) {
 		std::cout << "Loading failed" << std::endl;
 	}
 
-	sf::Sound soundExample(sBuff);
-
-	soundExample.setLoop(true);
-	soundExample.play();
+	exampleMusic.play();
 
 
 	while (window.isOpen()) {
