@@ -10,22 +10,41 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
 
+	window.setFramerateLimit(60);
+
+	sf::RectangleShape shape(sf::Vector2f(150, 150));
+
+	shape.setFillColor(sf::Color::Blue);
+
+	bool jump = false;
+
 	while (window.isOpen()) {
 
 		sf::Event event;
-
 		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) {
-				window.close();
+
+				switch (event.type) {
+				case sf::Event::Closed:
+					window.close();
+					break;
+				case sf::Event::KeyPressed:
+					if (event.key.code == sf::Keyboard::Space)
+						jump = true;
+					break;
+				case sf::Event::KeyReleased:
+					if (event.key.code == sf::Keyboard::Space)
+						jump = true;
+					break;
+				}
+
 			}
+
+			window.clear();
+			window.draw(shape);
+			window.display();
 		}
 
-		window.clear();
-
-		window.display();
-	}
-
-	return 0;
+		return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
