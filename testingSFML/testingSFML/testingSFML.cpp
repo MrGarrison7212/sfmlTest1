@@ -8,13 +8,13 @@
 int main()
 {
 
-	sf::RenderWindow window(sf::VideoMode(400, 400), "SFML Works");
+	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
 
 	window.setFramerateLimit(60);
 
-	sf::CircleShape shape(150);
+	sf::RectangleShape shape(sf::Vector2f(150, 150));
 
-	shape.setFillColor(sf::Color::Yellow);
+	shape.setFillColor(sf::Color::Blue);
 
 	while (window.isOpen()) {
 
