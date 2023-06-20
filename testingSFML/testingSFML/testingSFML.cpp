@@ -10,6 +10,8 @@ int main()
 
 	sf::RenderWindow window(sf::VideoMode(400, 400), "SFML Works");
 
+	window.setFramerateLimit(60);
+
 	sf::CircleShape shape(150);
 
 	shape.setFillColor(sf::Color::Yellow);
