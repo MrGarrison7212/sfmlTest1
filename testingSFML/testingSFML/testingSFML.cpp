@@ -8,9 +8,22 @@
 int main()
 {
 
-	sf::Window window(sf::VideoMode(300, 300), "SFML Works");
+	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
 
-	window.display();
+	while (window.isOpen()) {
+
+		sf::Event event;
+
+		while (window.pollEvent(event)) {
+			if (event.type == sf::Event::Closed) {
+				window.close();
+			}
+		}
+
+		window.clear();
+
+		window.display();
+	}
 
 	return 0;
 }
