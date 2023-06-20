@@ -12,41 +12,46 @@ int main()
 
 	window.setFramerateLimit(60);
 
-	sf::RectangleShape shape(sf::Vector2f(150, 150));
+	sf::RectangleShape rectShape(sf::Vector2f(200, 200));
+	sf::CircleShape circShape(30);
+	sf::ConvexShape pentShape;
 
-	shape.setFillColor(sf::Color::Blue);
+	rectShape.setFillColor(sf::Color::Blue);
+	rectShape.setOutlineColor(sf::Color::White);
+	rectShape.setOutlineThickness(5);
 
-	bool jump = false;
+	circShape.setFillColor(sf::Color::Black);
+	circShape.setOutlineColor(sf::Color::White);
+	circShape.setOutlineThickness(5);
+
+	pentShape.setPointCount(5);
+	pentShape.setPoint(0, sf::Vector2f(0.f, 0.f));
+	pentShape.setPoint(1, sf::Vector2f(150.f, 10.f));
+	pentShape.setPoint(2, sf::Vector2f(120.f, 90.f));
+	pentShape.setPoint(3, sf::Vector2f(30.f, 100.f));
+	pentShape.setPoint(4, sf::Vector2f(0.f, 50.f));
+	pentShape.setFillColor(sf::Color::Green);
+
 
 	while (window.isOpen()) {
-
 		sf::Event event;
 		while (window.pollEvent(event)) {
-
-				switch (event.type) {
-				case sf::Event::Closed:
-					window.close();
-					break;
-				case sf::Event::KeyPressed:
-					if (event.key.code == sf::Keyboard::Space)
-						jump = true;
-					break;
-				case sf::Event::KeyReleased:
-					if (event.key.code == sf::Keyboard::Space)
-						jump = true;
-					break;
-				}
-
+			if (event.type == sf::Event::Closed) {
+				window.close();
 			}
-
-			window.clear();
-			window.draw(shape);
-			window.display();
 		}
 
-		return 0;
-}
+		window.clear();
 
+		window.draw(rectShape);
+		window.draw(pentShape);
+		window.draw(circShape);
+
+		window.display();
+	}
+
+	return 0;
+}
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
 
