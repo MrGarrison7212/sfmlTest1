@@ -4,6 +4,7 @@
 #include "pch.h"
 #include <iostream>
 #include <SFML\Graphics.hpp>
+#include <SFML/Audio.hpp>
 
 int main()
 {
@@ -18,6 +19,18 @@ int main()
 	rectShape.setOrigin(sf::Vector2f(25, 25));
 
 
+	sf::SoundBuffer sBuff;
+
+	if (sBuff.loadFromFile("Data/kennywo.wav") == false) {
+		std::cout << "Loading failed" << std::endl;
+	}
+
+	sf::Sound soundExample(sBuff);
+
+	soundExample.setLoop(true);
+	soundExample.play();
+
+
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
@@ -25,25 +38,6 @@ int main()
 				window.close();
 			}
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
-				rectShape.rotate(1.f);
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-				rectShape.move(sf::Vector2f(0, 1));
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				rectShape.move(sf::Vector2f(0, -1));
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				rectShape.move(sf::Vector2f(-1, 0));
-			}
-
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				rectShape.move(sf::Vector2f(1, 0));
-			}
 		}
 
 		window.clear();
