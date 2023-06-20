@@ -12,14 +12,10 @@ int main()
 
 	window.setFramerateLimit(60);
 
-	sf::Texture etfImg;
-	if (etfImg.loadFromFile("Data/etf.jpg") == false) {
-		std::cout << "Loading failed!" << std::endl;
-	}
-
-	sf::CircleShape circShape(100);
-	circShape.setTexture(&etfImg);
-	circShape.setPosition(50, 50);
+	sf::RectangleShape rectShape(sf::Vector2f(50, 50));
+	rectShape.setFillColor(sf::Color::White);
+	rectShape.setPosition(sf::Vector2f(100, 100));
+	rectShape.setOrigin(sf::Vector2f(25, 25));
 
 
 	while (window.isOpen()) {
@@ -28,11 +24,31 @@ int main()
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+				rectShape.rotate(1.f);
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				rectShape.move(sf::Vector2f(0, 1));
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				rectShape.move(sf::Vector2f(0, -1));
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				rectShape.move(sf::Vector2f(-1, 0));
+			}
+
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				rectShape.move(sf::Vector2f(1, 0));
+			}
 		}
 
 		window.clear();
 
-		window.draw(circShape);
+		window.draw(rectShape);
 
 		window.display();
 	}
