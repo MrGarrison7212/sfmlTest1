@@ -1,50 +1,64 @@
 // testingSFML.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include <chrono>
 #include "pch.h"
 #include <iostream>
-#include <SFML\Graphics.hpp>
-#include <SFML/Audio.hpp>
+#include <mutex>
+#include <thread>
+#include <memory>
+#include <SFML/Graphics.hpp>
 
-int main()
-{
+std::mutex m;
+sf::Sprite sprite;
+bool quit = false;
 
-	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
+void draw(sf::RenderWindow *window) {
+	unsigned i = 0;
+	while (!quit) {
+		sprite.setPosition((i % 10) * 30, (i / 10) * 30);
+		i++;
+		if (i > 100) {
+			i = 0;
+		}
+		m.lock();
+		std::cout << "Rendering." << std::endl;
+		window->setActive(true);
+		window->clear();
+		window->draw(sprite);
+		window->display();
+		m.unlock();
+		std::this_thread::sleep_for(std::chrono::milliseconds(100));
+	}
+}
 
+int main() {
+	sf::Texture texture;
+	texture.loadFromFile("Data/kenny.png");
+	sprite = sf::Sprite(texture);
+	sf::RenderWindow window(sf::VideoMode(400, 200), "test");
 	window.setFramerateLimit(60);
 
-	sf::RectangleShape rectShape(sf::Vector2f(50, 50));
-	rectShape.setFillColor(sf::Color::White);
-	rectShape.setPosition(sf::Vector2f(100, 100));
-	rectShape.setOrigin(sf::Vector2f(25, 25));
-
-
-	sf::Music exampleMusic;
-
-	if (exampleMusic.openFromFile("Data/kennywo.wav") == false) {
-		std::cout << "Loading failed" << std::endl;
-	}
-
-	exampleMusic.play();
-
-
-	while (window.isOpen()) {
-		sf::Event event;
-		while (window.pollEvent(event)) {
-			if (event.type == sf::Event::Closed) {
-				window.close();
-			}
-
+	std::thread rendering(draw, &window);
+	window.setActive(false);
+	
+	sf::Event event;
+	while (true) {
+//		m.lock();
+		std::cout << "Waiting for an event" << std::endl;
+		bool ok = window.waitEvent(event);
+		std::cout << "Event received." << std::endl;
+//		m.unlock();
+		if (ok) {
+			if (event.type == sf::Event::Closed)
+				break;
 		}
-
-		window.clear();
-
-		window.draw(rectShape);
-
-		window.display();
+		else
+			break;
 	}
+	quit = true;
 
-	return 0;
+	rendering.join();
 }
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
