@@ -1,33 +1,46 @@
 // testingSFML.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+#include <chrono>
 #include "pch.h"
 #include <iostream>
-#include <SFML\Graphics.hpp>
+#include <mutex>
+#include <thread>
+#include <memory>
+#include <SFML/Graphics.hpp>
 
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
+	window.setFramerateLimit(144);
 
-	window.setFramerateLimit(60);
+	sf::RectangleShape rectangle(sf::Vector2f(200, 200));
+	rectangle.setFillColor(sf::Color::Red);
 
-	sf::RectangleShape shape(sf::Vector2f(150, 150));
-	shape.setFillColor(sf::Color::Blue);
-
-	while (window.isOpen()) {
-		sf::Event event;
-		if (window.waitEvent(event)) {
-			if (event.type == sf::Event::Closed) {
-				window.close();
-			}
+	while (window.isOpen())
+	{
+		if (rectangle.getFillColor() == sf::Color::Red)
+		{
+			rectangle.setFillColor(sf::Color::Blue);
+		}
+		else
+		{
+			rectangle.setFillColor(sf::Color::Red);
 		}
 
 		window.clear();
-		window.draw(shape);
+		window.draw(rectangle);
 		window.display();
-	}
 
-	return 0;
+		auto event = sf::Event{};
+		if (window.waitEvent(event))
+		{
+			if (event.type == sf::Event::Closed)
+			{
+				window.close();
+			}
+		}
+	}
 }
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
