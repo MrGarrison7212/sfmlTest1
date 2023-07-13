@@ -19,7 +19,7 @@ class Application
 		m_window.setActive(true);
 
 		sf::RectangleShape rectangle(sf::Vector2f(200, 200));
-		rectangle.setFillColor(sf::Color::Red);
+		rectangle.setFillColor(sf::Color::Blue);
 		unsigned i = 0;
 //		rectangle.setPosition(sf::Vector2f(200.f, 200.f));
 
@@ -49,14 +49,14 @@ class Application
 				i = 0;
 			}
 
-			if (rectangle.getFillColor() == sf::Color::Red)
-			{
-				rectangle.setFillColor(sf::Color::Blue);
-			}
-			else
-			{
-				rectangle.setFillColor(sf::Color::Red);
-			}
+//			if (rectangle.getFillColor() == sf::Color::Red)
+//			{
+//				rectangle.setFillColor(sf::Color::Blue);
+//			}
+//			else
+//			{
+//				rectangle.setFillColor(sf::Color::Red);
+//			}
 
 			sf::Time frameTime = clock.restart();
 			accumulator += frameTime;
@@ -76,7 +76,7 @@ class Application
 public:
 	Application() : m_window(sf::VideoMode(300, 300), "Wait Event")
 	{
-		m_window.setFramerateLimit(144);
+		m_window.setFramerateLimit(60);
 	}
 
 	void run()
