@@ -1,46 +1,113 @@
 // testingSFML.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-
-#include <chrono>
 #include "pch.h"
-#include <iostream>
 #include <mutex>
+#include <string>
 #include <thread>
-#include <memory>
+#include <queue>
+
 #include <SFML/Graphics.hpp>
+
+class Application
+{
+	sf::RenderWindow m_window;
+	std::queue<sf::Event> m_eventQueue;
+	std::mutex m_sharedAccess;
+
+	void renderGame()
+	{
+		m_window.setActive(true);
+
+		sf::RectangleShape rectangle(sf::Vector2f(200, 200));
+		rectangle.setFillColor(sf::Color::Red);
+		unsigned i = 0;
+//		rectangle.setPosition(sf::Vector2f(200.f, 200.f));
+
+		sf::Clock clock;
+		sf::Time accumulator = sf::Time::Zero;
+
+		while (m_window.isOpen())
+		{
+			{
+				std::unique_lock<std::mutex> lock(m_sharedAccess);
+				while (!m_eventQueue.empty())
+				{
+					sf::Event event;
+					event = m_eventQueue.back();
+					m_eventQueue.pop();
+
+					if (event.type == sf::Event::Closed)
+					{
+						m_window.close();
+					}
+				}
+			}
+
+			rectangle.setPosition((i % 10) * 30, (i / 10) * 30);
+			i++;
+			if (i > 100) {
+				i = 0;
+			}
+
+			if (rectangle.getFillColor() == sf::Color::Red)
+			{
+				rectangle.setFillColor(sf::Color::Blue);
+			}
+			else
+			{
+				rectangle.setFillColor(sf::Color::Red);
+			}
+
+			sf::Time frameTime = clock.restart();
+			accumulator += frameTime;
+
+			if (accumulator >= sf::seconds(1.f))
+			{
+//				m_window.setTitle(std::to_string(1.f / frameTime.asSeconds()));
+				accumulator = sf::Time::Zero;
+			}
+
+			m_window.clear();
+			m_window.draw(rectangle);
+			m_window.display();
+		}
+	}
+
+public:
+	Application() : m_window(sf::VideoMode(300, 300), "Wait Event")
+	{
+		m_window.setFramerateLimit(144);
+	}
+
+	void run()
+	{
+		m_window.setActive(false);
+
+		std::thread renderThread(&Application::renderGame, this);
+
+		sf::Event event;
+		while (m_window.waitEvent(event))
+		{
+
+			{
+				std::unique_lock<std::mutex> lock(m_sharedAccess);
+				m_eventQueue.push(event);
+			}
+
+			if (event.type == sf::Event::Closed)
+			{
+				break;
+			}
+		}
+
+		renderThread.join();
+	}
+};
 
 int main()
 {
-	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
-	window.setFramerateLimit(144);
-
-	sf::RectangleShape rectangle(sf::Vector2f(200, 200));
-	rectangle.setFillColor(sf::Color::Red);
-
-	while (window.isOpen())
-	{
-		if (rectangle.getFillColor() == sf::Color::Red)
-		{
-			rectangle.setFillColor(sf::Color::Blue);
-		}
-		else
-		{
-			rectangle.setFillColor(sf::Color::Red);
-		}
-
-		window.clear();
-		window.draw(rectangle);
-		window.display();
-
-		auto event = sf::Event{};
-		if (window.waitEvent(event))
-		{
-			if (event.type == sf::Event::Closed)
-			{
-				window.close();
-			}
-		}
-	}
+	Application app;
+	app.run();
 }
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
