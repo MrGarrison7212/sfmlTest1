@@ -1,114 +1,51 @@
 // testingSFML.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
+#include <chrono>
 #include "pch.h"
+#include <iostream>
 #include <mutex>
-#include <string>
 #include <thread>
-#include <queue>
-
+#include <memory>
 #include <SFML/Graphics.hpp>
 
-class Application
+int main()
 {
-	sf::RenderWindow m_window;
-	std::queue<sf::Event> m_eventQueue;
-	std::mutex m_sharedAccess;
+	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
+	window.setFramerateLimit(144);
 
-	void renderGame()
+	sf::RectangleShape rectangle(sf::Vector2f(200, 200));
+	rectangle.setFillColor(sf::Color::Red);
+
+	while (window.isOpen())
 	{
-		m_window.setActive(true);
 
-		sf::RectangleShape rectangle(sf::Vector2f(200, 200));
-		rectangle.setFillColor(sf::Color::Blue);
-		unsigned i = 0;
-//		rectangle.setPosition(sf::Vector2f(200.f, 200.f));
+		window.clear();
+		window.draw(rectangle);
+		window.display();
 
-		sf::Clock clock;
-		sf::Time accumulator = sf::Time::Zero;
+		auto event = sf::Event{};
 
-		while (m_window.isOpen())
+		if (window.waitEvent(event))
 		{
-			{
-				std::unique_lock<std::mutex> lock(m_sharedAccess);
-				while (!m_eventQueue.empty())
+			if (event.type == sf::Event::MouseButtonPressed) {
+				if (rectangle.getFillColor() == sf::Color::Red)
 				{
-					sf::Event event;
-					event = m_eventQueue.back();
-					m_eventQueue.pop();
-
-					if (event.type == sf::Event::Closed)
-					{
-						m_window.close();
-					}
+					rectangle.setFillColor(sf::Color::Blue);
 				}
-			}
-
-			rectangle.setPosition((i % 10) * 30, (i / 10) * 30);
-			i++;
-			if (i > 100) {
-				i = 0;
-			}
-
-//			if (rectangle.getFillColor() == sf::Color::Red)
-//			{
-//				rectangle.setFillColor(sf::Color::Blue);
-//			}
-//			else
-//			{
-//				rectangle.setFillColor(sf::Color::Red);
-//			}
-
-			sf::Time frameTime = clock.restart();
-			accumulator += frameTime;
-
-			if (accumulator >= sf::seconds(1.f))
-			{
-//				m_window.setTitle(std::to_string(1.f / frameTime.asSeconds()));
-				accumulator = sf::Time::Zero;
-			}
-
-			m_window.clear();
-			m_window.draw(rectangle);
-			m_window.display();
-		}
-	}
-
-public:
-	Application() : m_window(sf::VideoMode(300, 300), "Wait Event")
-	{
-		m_window.setFramerateLimit(60);
-	}
-
-	void run()
-	{
-		m_window.setActive(false);
-
-		std::thread renderThread(&Application::renderGame, this);
-
-		sf::Event event;
-		while (m_window.waitEvent(event))
-		{
-
-			{
-				std::unique_lock<std::mutex> lock(m_sharedAccess);
-				m_eventQueue.push(event);
+				else
+				{
+					rectangle.setFillColor(sf::Color::Red);
+				}
 			}
 
 			if (event.type == sf::Event::Closed)
 			{
-				break;
+				window.close();
 			}
 		}
-
-		renderThread.join();
 	}
-};
-
-int main()
-{
-	Application app;
-	app.run();
 }
+
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu
 
