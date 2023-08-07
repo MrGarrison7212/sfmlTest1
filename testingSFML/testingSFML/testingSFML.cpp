@@ -1,49 +1,53 @@
 // testingSFML.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
-#include <chrono>
 #include "pch.h"
 #include <iostream>
-#include <mutex>
-#include <thread>
-#include <memory>
-#include <SFML/Graphics.hpp>
-
+#include <SFML\Graphics.hpp>
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
-	window.setFramerateLimit(144);
 
-	sf::RectangleShape rectangle(sf::Vector2f(200, 200));
-	rectangle.setFillColor(sf::Color::Red);
+	window.setFramerateLimit(60);
 
-	while (window.isOpen())
-	{
+	sf::RectangleShape rectShape(sf::Vector2f(200, 150));
+	sf::CircleShape circShape(30);
+	sf::ConvexShape pentShape;
 
-		window.clear();
-		window.draw(rectangle);
-		window.display();
+	rectShape.setFillColor(sf::Color::Blue);
+	rectShape.setOutlineColor(sf::Color::White);
+	rectShape.setOutlineThickness(5);
 
-		auto event = sf::Event{};
+	circShape.setFillColor(sf::Color::Black);
+	circShape.setOutlineColor(sf::Color::White);
+	circShape.setOutlineThickness(5);
 
-		if (window.waitEvent(event))
-		{
-			if (event.type == sf::Event::MouseButtonPressed) {
-				if (rectangle.getFillColor() == sf::Color::Red)
-				{
-					rectangle.setFillColor(sf::Color::Blue);
-				}
-				else
-				{
-					rectangle.setFillColor(sf::Color::Red);
-				}
-			}
+	pentShape.setPointCount(5);
+	pentShape.setPoint(0, sf::Vector2f(0.f, 0.f));
+	pentShape.setPoint(1, sf::Vector2f(150.f, 10.f));
+	pentShape.setPoint(2, sf::Vector2f(120.f, 90.f));
+	pentShape.setPoint(3, sf::Vector2f(30.f, 100.f));
+	pentShape.setPoint(4, sf::Vector2f(0.f, 50.f));
+	pentShape.setFillColor(sf::Color::Green);
 
-			if (event.type == sf::Event::Closed)
-			{
+
+	while (window.isOpen()) {
+		sf::Event event;
+		while (window.pollEvent(event)) {
+			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
 		}
+
+		window.clear();
+
+		window.draw(rectShape);
+		window.draw(pentShape);
+		window.draw(circShape);
+
+		window.display();
 	}
+
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
