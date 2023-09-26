@@ -9,40 +9,13 @@ int main()
 
 	window.setFramerateLimit(60);
 
-	sf::RectangleShape rectShape(sf::Vector2f(200, 150));
-	sf::CircleShape circShape(30);
-	sf::ConvexShape pentShape;
-
-	rectShape.setFillColor(sf::Color::Blue);
-	rectShape.setOutlineColor(sf::Color::White);
-	rectShape.setOutlineThickness(5);
-
-	circShape.setFillColor(sf::Color::Black);
-	circShape.setOutlineColor(sf::Color::White);
-	circShape.setOutlineThickness(5);
-
-	pentShape.setPointCount(5);
-	pentShape.setPoint(0, sf::Vector2f(0.f, 0.f));
-	pentShape.setPoint(1, sf::Vector2f(150.f, 10.f));
-	pentShape.setPoint(2, sf::Vector2f(120.f, 90.f));
-	pentShape.setPoint(3, sf::Vector2f(30.f, 100.f));
-	pentShape.setPoint(4, sf::Vector2f(0.f, 50.f));
-	pentShape.setFillColor(sf::Color::Green);
-
-
 	while (window.isOpen()) {
 		sf::Event event;
-		while (window.pollEvent(event)) {
+		if (window.waitEvent(event)) {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
 		}
-
-		window.clear();
-
-		window.draw(rectShape);
-		window.draw(pentShape);
-		window.draw(circShape);
 
 		window.display();
 	}
