@@ -11,10 +11,29 @@ int main()
 
 	while (window.isOpen()) {
 		sf::Event event;
-		if (window.waitEvent(event)) {
-			if (event.type == sf::Event::Closed) {
+		while (window.pollEvent(event)) {
+			switch (event.type) {
+			case sf::Event::Closed:
 				window.close();
+				break;
+			case sf::Event::KeyPressed:
+				if (event.key.code == sf::Keyboard::Space)
+					std::cout << "Space pressed!" << std::endl;
+				break;
+			case sf::Event::KeyReleased:
+				if (event.key.code == sf::Keyboard::Space)
+					std::cout << "Space released!" << std::endl;
+				break;
+			case sf::Event::MouseButtonPressed:
+				if (event.mouseButton.button == sf::Mouse::Left)
+					std::cout << "Left mouse button pressed!" << std::endl;
+				break;
+			case sf::Event::MouseButtonReleased:
+				if (event.mouseButton.button == sf::Mouse::Right)
+					std::cout << "Right mouse button released!" << std::endl;
+				break;
 			}
+			
 		}
 
 		window.display();
