@@ -3,39 +3,24 @@
 #include "pch.h"
 #include <iostream>
 #include <SFML\Graphics.hpp>
+#include <SFML\Audio.hpp>
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
 	window.setFramerateLimit(60);
 	sf::RectangleShape rectShape(sf::Vector2f(50, 50));
-	rectShape.setFillColor(sf::Color::White);
-	rectShape.setPosition(sf::Vector2f(100, 100));
-	rectShape.setOrigin(sf::Vector2f(25, 25));
+	// Kreiranje objekta klase sf::Music za reprodukciju zvuka
+	sf::Music exampleMusic;
+	if (exampleMusic.openFromFile("Data/kennywo.wav") == false) {
+		std::cout << "Loading failed" << std::endl;
+	}
+	// Pokretanje reprodukcije zvuka
+	exampleMusic.play();
 	while (window.isOpen()) {
 		sf::Event event;
 		while (window.pollEvent(event)) {
 			if (event.type == sf::Event::Closed) {
 				window.close();
-			}
-			// rotacija pravougaonog oblika za jedan stepen
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
-				rectShape.rotate(1.f);
-			}
-			// pomeranje pravougaonog oblika prema dole
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
-				rectShape.move(sf::Vector2f(0, 1));
-			}
-			// pomeranje pravougaonog oblika prema gore
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-				rectShape.move(sf::Vector2f(0, -1));
-			}
-			// pomeranje pravougaonog oblika ulevo
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
-				rectShape.move(sf::Vector2f(-1, 0));
-			}
-			// pomeranje pravougaonog oblika udesno
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
-				rectShape.move(sf::Vector2f(1, 0));
 			}
 		}
 		window.clear();
@@ -43,6 +28,7 @@ int main()
 		window.display();
 	}
 	return 0;
+
 
 }
 
