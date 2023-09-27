@@ -3,36 +3,27 @@
 #include "pch.h"
 #include <iostream>
 #include <SFML\Graphics.hpp>
-#include <SFML\Audio.hpp>
+#include <SFML\Graphics.hpp>
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
 	window.setFramerateLimit(60);
-	sf::RectangleShape rectShape(sf::Vector2f(50, 50));
-	// Kreiranje objekta klase sf::Music za reprodukciju zvuka
-	sf::Music exampleMusic;
-	if (exampleMusic.openFromFile("Data/kennywo.wav") == false) {
-		std::cout << "Loading failed" << std::endl;
-	}
-	// Pokretanje reprodukcije zvuka
-	exampleMusic.play();
+	sf::RectangleShape shape(sf::Vector2f(150, 150));
+	shape.setFillColor(sf::Color::Blue);
 	while (window.isOpen()) {
 		sf::Event event;
-		while (window.pollEvent(event)) {
+		if (window.waitEvent(event)) {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
 		}
 		window.clear();
-		window.draw(rectShape);
+		window.draw(shape);
 		window.display();
 	}
 	return 0;
 
-
 }
-
-
 
 
 
