@@ -7,32 +7,45 @@ int main()
 {
 	sf::RenderWindow window(sf::VideoMode(300, 300), "SFML Works");
 	window.setFramerateLimit(60);
-	sf::RectangleShape rectangle(sf::Vector2f(200, 200));
-	rectangle.setFillColor(sf::Color::Blue);
+	sf::RectangleShape rectShape(sf::Vector2f(50, 50));
+	rectShape.setFillColor(sf::Color::White);
+	rectShape.setPosition(sf::Vector2f(100, 100));
+	rectShape.setOrigin(sf::Vector2f(25, 25));
 	while (window.isOpen()) {
-
-		window.clear();
-		window.draw(rectangle);
-		window.display();
-
 		sf::Event event;
-
-		if (window.waitEvent(event)) {
-			if (event.type == sf::Event::MouseButtonPressed) {
-				if (rectangle.getFillColor() == sf::Color::Red) {
-					rectangle.setFillColor(sf::Color::Blue);
-				}
-				else {
-					rectangle.setFillColor(sf::Color::Red);
-				}
-			}
-			else if (event.type == sf::Event::Closed) {
+		while (window.pollEvent(event)) {
+			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
+			// rotacija pravougaonog oblika za jedan stepen
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::R)) {
+				rectShape.rotate(1.f);
+			}
+			// pomeranje pravougaonog oblika prema dole
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down)) {
+				rectShape.move(sf::Vector2f(0, 1));
+			}
+			// pomeranje pravougaonog oblika prema gore
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+				rectShape.move(sf::Vector2f(0, -1));
+			}
+			// pomeranje pravougaonog oblika ulevo
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+				rectShape.move(sf::Vector2f(-1, 0));
+			}
+			// pomeranje pravougaonog oblika udesno
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+				rectShape.move(sf::Vector2f(1, 0));
+			}
 		}
+		window.clear();
+		window.draw(rectShape);
+		window.display();
 	}
 	return 0;
+
 }
+
 
 
 
